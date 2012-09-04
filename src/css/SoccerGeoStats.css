@@ -7,10 +7,14 @@ body {
 
 .label {
 	font-family: sans-serif;
-	color: #FFFFFF;
+	color: #4EB305;
 }
 
 .label.big {
 	font-weight: bold;
+	font-size: 30px;
+}
+
+.label.medium {
 	font-size: 18px;
 }
