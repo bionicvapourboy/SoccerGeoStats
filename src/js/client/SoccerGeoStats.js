@@ -55,6 +55,15 @@ if (!window.SGS) {
 			
 			$('#list_match').bind('change', function (e) {
 				console.log(e.args.item.originalItem);
+				var match = e.args.item.originalItem;
+				var map = L.map('map').setView([match.location[0], match.location[1]], 17);
+				L.tileLayer('http://{s}.tile.cloudmade.com/17ad8466b1c24b86b173b2a1d5492115/997/256/{z}/{x}/{y}.png', {
+					attribution: 'GeoBricks',
+				    maxZoom: 18
+				}).addTo(map);
+				for (var i = 0 ; i < match.events.length ; i++) {
+					var marker = L.marker([match.events[i].location[0], match.events[i].location[1]]).addTo(map);
+				}
 			});
 			
 		},
