@@ -4,6 +4,8 @@ if (!window.SGS) {
 			
 		theme : 'ui-le-frog',
 		
+		map : null,
+		
 		providers : [
 		             {html: "<div style='height: 20px; float: left;'><img style='float: left; margin-top: 2px; margin-right: 5px;' src='resources/images/gb.png'/><span style='float: left; font-size: 13px; font-family: Verdana Arial;'>Google Maps</span></div>", title: 'Google Maps', value: 'google' },
 		             {html: "<div style='height: 20px; float: left;'><img style='float: left; margin-top: 2px; margin-right: 5px;' src='resources/images/gb.png'/><span style='float: left; font-size: 13px; font-family: Verdana Arial;'>Open Street Maps</span></div>", title: 'Open Street Maps', value: 'osm' },
@@ -54,18 +56,31 @@ if (!window.SGS) {
 			SGS.populateMatchList();
 			
 			$('#list_match').bind('change', function (e) {
-				console.log(e.args.item.originalItem);
-				var match = e.args.item.originalItem;
-				var map = L.map('map').setView([match.location[0], match.location[1]], 17);
+				SGS.showEvents(e.args.item.originalItem);
+			});
+			
+		},
+		
+		showEvents : function(match) {
+			if (SGS.map == null) {
+				SGS.map = L.map('map').setView([match.location[0], match.location[1]], 17);
 				L.tileLayer('http://{s}.tile.cloudmade.com/17ad8466b1c24b86b173b2a1d5492115/997/256/{z}/{x}/{y}.png', {
 					attribution: 'GeoBricks',
 				    maxZoom: 18
-				}).addTo(map);
+				}).addTo(SGS.map);
 				for (var i = 0 ; i < match.events.length ; i++) {
-					var marker = L.marker([match.events[i].location[0], match.events[i].location[1]]).addTo(map);
+					var marker = L.marker([match.events[i].location[0], match.events[i].location[1]]);
+					marker.bindPopup("<b>" + match.events[i].player +"</b><br/>" + match.events[i].event + "<br/>" + match.events[i].minute + "° minute");
+					marker.addTo(SGS.map);
 				}
-			});
-			
+			} else {
+				SGS.map.panTo([match.location[0], match.location[1]]);
+				for (var i = 0 ; i < match.events.length ; i++) {
+					var marker = L.marker([match.events[i].location[0], match.events[i].location[1]]);
+					marker.bindPopup("<b>" + match.events[i].player +"</b><br/>" + match.events[i].event + "<br/>" + match.events[i].minute + "° minute");
+					marker.addTo(SGS.map);
+				}
+			}
 		},
 		
 		populateMatchList : function() {
@@ -99,6 +114,8 @@ if (!window.SGS) {
 						height: '25px', 
 						theme: SGS.theme
 					});
+					
+//					SGS.showEvents(source[0]);
 					
 				},
 				
