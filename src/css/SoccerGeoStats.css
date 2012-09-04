@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+body {
+	background-image: url('../../resources/images/grass.jpg'); 
+	background-repeat: repeat;
+}
+
+.label {
+	font-family: sans-serif;
+	color: #FFFFFF;
+}
+
+.label.big {
+	font-weight: bold;
+	font-size: 18px;
+}
