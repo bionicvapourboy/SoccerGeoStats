@@ -18,3 +18,8 @@ body {
 .label.medium {
 	font-size: 18px;
 }
+
+.label.small {
+	font-weight: bold;
+	font-size: 12px;
+}
